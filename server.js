@@ -34,12 +34,14 @@ let strategy = new JwtStrategy(jwtOptions, function (jwt_payload, next) {
     }
 });
 
-
+// tell passport to use our "strategy"
 passport.use(strategy);
+
+// add passport as application-level middleware
+app.use(passport.initialize());
 
 app.use(express.json());    // ensure that our server can parse the JSON provided in the request body for some of our routes
 app.use(cors());            // Add support for CORS
-app.use(passport.initialize());
 
 app.post("/api/user/register", (req, res) => {
     userService.registerUser(req.body)
